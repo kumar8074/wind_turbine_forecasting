@@ -13,4 +13,8 @@ model:
   model_save_path: "artifacts/trained_model.keras"
   epochs: 10
   batch_size: 32
+
+mlflow:
+  tracking_uri: "http://127.0.0.1:5000"
+  experiment_name: "Wind Turbine Performance Analysis"
   

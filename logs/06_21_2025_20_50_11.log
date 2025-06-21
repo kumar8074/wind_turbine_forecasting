@@ -1,0 +1,23 @@
+[ 2025-06-21 20:50:16,067 ] 18 root - INFO - Starting Training Pipeline
+[ 2025-06-21 20:50:16,069 ] 26 root - INFO - Entered the data ingestion component
+[ 2025-06-21 20:50:16,103 ] 29 root - INFO - Loaded data from CSV file
+[ 2025-06-21 20:50:16,103 ] 22 root - INFO - Data Ingestion completed
+[ 2025-06-21 20:50:16,104 ] 43 root - INFO - Entered the data transformation component
+[ 2025-06-21 20:50:16,174 ] 65 root - INFO - Splitted data into training, validation and test sets
+[ 2025-06-21 20:50:16,175 ] 74 root - INFO - Standardized the data
+[ 2025-06-21 20:50:16,202 ] 79 root - INFO - Created X,y Pairs
+[ 2025-06-21 20:50:16,202 ] 80 root - INFO - X_train shape: (40414, 10, 4), y_train shape: (40414,)
+[ 2025-06-21 20:50:16,202 ] 81 root - INFO - X_val shape: (5043, 10, 4), y_val shape: (5043,)
+[ 2025-06-21 20:50:16,202 ] 82 root - INFO - X_test shape: (5043, 10, 4), y_test shape: (5043,)
+[ 2025-06-21 20:50:16,203 ] 90 root - INFO - Preprocessor object saved at artifacts/preprocessor.pkl
+[ 2025-06-21 20:50:16,204 ] 94 root - INFO - Test data saved at DATA/test.csv
+[ 2025-06-21 20:50:16,204 ] 27 root - INFO - Data Transformation completed
+[ 2025-06-21 20:50:16,205 ] 43 root - INFO - Entered Model Trainer Component
+[ 2025-06-21 20:50:16,238 ] 47 root - INFO - MLflow tracking URI and experiment set successfully
+[ 2025-06-21 20:50:16,304 ] 51 root - INFO - Model Built successfully
+[ 2025-06-21 20:50:16,396 ] 63 root - INFO - Model parameters logged successfully
+[ 2025-06-21 20:51:05,361 ] 72 root - INFO - Model Training Completed
+[ 2025-06-21 20:51:07,126 ] 80 root - INFO - Model signature inferred successfully
+[ 2025-06-21 20:51:13,111 ] 88 root - INFO - Model logged to MLflow successfully
+[ 2025-06-21 20:51:13,135 ] 94 root - INFO - Trained model saved at artifacts/trained_model.keras
+[ 2025-06-21 20:51:13,135 ] 32 root - INFO - Training Pipeline completed
