@@ -1,9 +1,0 @@
-[ 2025-06-22 12:29:50,178 ] 23 root - INFO - Started Prediction Pipeline
-[ 2025-06-22 12:29:50,204 ] 27 root - INFO - Preprocessor object loaded sucessfully
-[ 2025-06-22 12:29:50,298 ] 30 root - INFO - Model loaded sucessfully
-[ 2025-06-22 12:29:50,299 ] 34 root - INFO - Preparing sequence from user input...
-[ 2025-06-22 12:29:50,334 ] 42 root - INFO - Prepared sequence shape: (1, 10, 4)
-[ 2025-06-22 12:29:50,334 ] 44 root - INFO - Starting prediction...
-[ 2025-06-22 12:29:50,507 ] 50 root - INFO - Number of features in the test data: 4
-[ 2025-06-22 12:29:50,508 ] 61 root - INFO - Predicted LV ActivePower (kW) for the next 10th minute: 687.0483791053326
-[ 2025-06-22 12:29:50,508 ] 63 root - INFO - Prediction pipeline completed successfully

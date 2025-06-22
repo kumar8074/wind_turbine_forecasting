@@ -25,7 +25,6 @@ class DataTransformationConfig:
     test_size: float
     window_size: float
     processor_file_path: str
-    test_data_path: str
     
 class DataTransformation:
     def __init__(self):
@@ -36,7 +35,6 @@ class DataTransformation:
             test_size=self.config['transformation']['test_size'],
             window_size=self.config['transformation']['window_size'],
             processor_file_path=self.config['transformation']['preprocessor_file_path'],
-            test_data_path=self.config['transformation']['test_data_path']
         )
         
     def initiate_data_transformation(self, df):
@@ -81,9 +79,8 @@ class DataTransformation:
             logging.info(f"X_val shape: {X_val.shape}, y_val shape: {y_val.shape}")
             logging.info(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
             
-            # Ensure that artifacts and data directory exists
+            # Ensure that artifacts directory exists
             os.makedirs(os.path.dirname(self.data_transformation_config.processor_file_path), exist_ok=True)
-            os.makedirs(os.path.dirname(self.data_transformation_config.test_data_path), exist_ok=True)
             
             # Save the processor object for later usecase.
             joblib.dump(scaler, self.data_transformation_config.processor_file_path)

@@ -9,6 +9,8 @@ The system provides a complete pipeline for:
 - LSTM-based deep learning model training
 - Performance evaluation and prediction
 - Model persistence and deployment
+- Web-based interface for predictions and model training
+- Experiment tracking with MLflow
 
 ## Dataset Description
 This data is taken from Wind Turbines Scada system that is working and generating power is turkey for the year 2018.
@@ -21,30 +23,43 @@ This data is taken from Wind Turbines Scada system that is working and generatin
         - Wind Direction (°): The wind direction at the hub height of the turbine (wind turbines turn to this direction automaticly)
 
 ## Features
+- **Web Interface**: User-friendly web interface for making predictions and training models
+- **MLflow Integration**: Track experiments, parameters, and metrics with MLflow
 - **Modular Pipeline Architecture**: Separated into distinct components for data ingestion, transformation, model training, and prediction
 - **LSTM-based Forecasting**: Utilizes Long Short-Term Memory networks for accurate time series prediction
 - **Configurable Parameters**: Easy configuration of model hyperparameters and data processing steps
 - **Model Persistence**: Save and load trained models for deployment
+- **Visualization**: Training curves and prediction visualizations
 - **Comprehensive Logging**: Detailed logging for monitoring and debugging
 
 ## Project Structure
 ```
-wind_turbine_forecasting/
-├── DATA/                # Raw and processed data (CSV, NPZ)
-├── Notebooks/           # Jupyter notebooks for research/experiments
-├── artifacts/           # Saved models and preprocessors
-├── config/
-│   └── config.yaml      # Main configuration file
-├── logs/                # Log files for pipeline runs
+WTPO/
+├── .github/                 # GitHub Actions workflows
+├── DATA/                    # Raw and processed data
+├── Notebooks/               # Jupyter notebooks for research/experiments
+├── artifacts/               # Saved models, preprocessors, and visualizations
+│   └── visualizations/      # Training and prediction plots
+├── config/                  # Configuration files
+│   └── config.yaml          # Main configuration file
+├── logs/                    # Log files for pipeline runs
+├── mlartifacts/             # MLflow artifacts
+├── mlruns/                  # MLflow experiment tracking
 ├── src/
-│   ├── components/      # Main pipeline components (ingestion, transformation, training)
-│   ├── models/          # Model architecture (LSTM)
-│   ├── pipeline/        # Train and predict pipeline scripts
-│   ├── utils/           # Utility functions (preprocessing, model saving, etc.)
-│   └── logger.py        # Logging setup
-│   └── exception.py     # Custom exception class
-├── requirements.txt     # Python dependencies
-└── README.md            # Project documentation
+│   ├── components/          # Pipeline components (data_ingestion, data_transformation, etc.)
+│   ├── models/              # Model architecture and training logic
+│   ├── pipeline/            # Training and prediction pipelines
+│   ├── utils/               # Utility functions
+│   ├── exception.py         # Custom exception handling
+│   └── logger.py            # Logging configuration
+├── templates/               # Web interface templates
+│   ├── index.html           # Prediction page
+│   └── train.html           # Training page
+├── .gitignore
+├── app.py                   # Flask web application
+├── Dockerfile               # Container configuration
+├── README.md                # Project documentation
+└── requirements.txt         # Python dependencies
 ```
 
 
@@ -59,24 +74,59 @@ wind_turbine_forecasting/
    git clone [https://github.com/yourusername/wind_turbine_forecasting.git](https://github.com/yourusername/wind_turbine_forecasting.git)
    cd wind_turbine_forecasting
    ```
-2. Create a virtual environment and activate it:
+2. Create and activate a virtual environment:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-
 ### Usage
-1. Modify the configuration file `config/config.yaml` to set up your data paths, model parameters, and other settings.
-2. Run the training pipeline:
+
+#### Web Interface
+1. Start the web application:
+   ```bash
+   python app.py
+   ```
+2. Open your browser and navigate to:
+   ```
+   http://localhost:8000
+   ```
+
+#### MLflow UI
+To monitor experiments and view metrics:
+1. Start the MLflow UI (in a separate terminal):
+   ```bash
+   mlflow ui
+   ```
+2. Access the MLflow dashboard at:
+   ```
+   http://localhost:5000
+   ```
+
+#### Command Line
+1. Run the training pipeline:
    ```bash
    python src/pipeline/train_pipeline.py
    ```
-3. Run the prediction pipeline:
+2. Make predictions using the trained model:
    ```bash
    python src/pipeline/predict_pipeline.py
    ```
+
+## Configuration
+Modify `config/config.yaml` to adjust:
+- Data paths and file names
+- Model hyperparameters
+- Training parameters
+- Feature engineering settings
+
+## Docker Support
+Build and run the application using Docker:
+```bash
+docker build -t wtpo .
+docker run -p 8000:8000 wtpo
+```

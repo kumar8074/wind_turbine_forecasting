@@ -4,6 +4,8 @@ from sklearn.metrics import r2_score
 import numpy as np
 import tensorflow as tf
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 def save_keras_model(model: Model, save_path: str) -> None:
@@ -88,6 +90,7 @@ def plot_training_curves(history, save_path):
     
     plt.tight_layout()
     plt.savefig(save_path)
+    plt.close()
     
 def plot_predictions_and_truth(y_test_inverse, y_pred_inverse, save_path):
     """Plot the true values and predictions over time.
@@ -123,6 +126,7 @@ def plot_predictions_and_truth(y_test_inverse, y_pred_inverse, save_path):
     # Improve spacing
     plt.tight_layout()
     plt.savefig(save_path)
+    plt.close()
     
 def plot_pred_vs_true_over_time(y_test_inverse, y_pred_inverse, save_path):
     """
@@ -142,3 +146,4 @@ def plot_pred_vs_true_over_time(y_test_inverse, y_pred_inverse, save_path):
     plt.grid()
     
     plt.savefig(save_path)
+    plt.close()

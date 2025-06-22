@@ -13,29 +13,35 @@ from src.components.model_trainer import ModelTrainer
 from src.logger import logging
 from src.exception import CustomException
 
-def train_pipeline():
-    try:
-        logging.info("Starting Training Pipeline")
-        # Step 1: Data Ingestion
-        data_ingestion = DataIngestion()
-        df = data_ingestion.initiate_data_ingestion()
-        logging.info("Data Ingestion completed")
+class TrainingPipeline:
+    def __init__(self):
+        self.data_ingestion = DataIngestion()
+        self.data_transformation = DataTransformation()
+        self.model_trainer = ModelTrainer()
+        
+    def train(self):
+        try:
+            logging.info("Starting Training Pipeline")
+            # Step 1: Data Ingestion
+            df = self.data_ingestion.initiate_data_ingestion()
+            logging.info("Data Ingestion completed")
 
-        # Step 2: Data Transformation
-        data_transformation = DataTransformation()
-        X_train, y_train, X_val, y_val, X_test, y_test, features = data_transformation.initiate_data_transformation(df)
-        logging.info("Data Transformation completed")
+            # Step 2: Data Transformation
+            X_train, y_train, X_val, y_val, X_test, y_test, features = self.data_transformation.initiate_data_transformation(df)
+            logging.info("Data Transformation completed")
+            
+            # Step 3: Model Training
+            history = self.model_trainer.initiate_model_training(X_train, y_train, X_val, y_val, X_test, y_test)
+            logging.info("Training Pipeline completed")
+            print("Training Pipeline completed")
+        except CustomException as ce:
+            logging.error(f"An error occurred: {ce}")
+        except Exception as e:
+            logging.error(f"Unexpected error during training pipeline: {e}")
+            print(f"Unexpected error during training pipeline: {e}")
 
-        # Step 3: Model Training
-        model_trainer = ModelTrainer()
-        history = model_trainer.initiate_model_training(X_train, y_train, X_val, y_val, X_test, y_test)
-        logging.info("Training Pipeline completed")
-        print("Training Pipeline completed")
-    except CustomException as ce:
-        logging.error(f"An error occurred: {ce}")
-    except Exception as e:
-        logging.error(f"Unexpected error during training pipeline: {e}")
-        print(f"Unexpected error during training pipeline: {e}")
-
-if __name__ == "__main__":
-    train_pipeline()
+# Example usage:
+#if __name__ == "__main__":
+    #train_pipeline = TrainingPipeline()
+    #train_pipeline.train()
+    #print("Training Pipeline executed successfully.")

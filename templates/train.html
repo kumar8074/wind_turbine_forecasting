@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Model Training</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 2rem;
+            background: #f4f6f9;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .train-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .train-btn:hover {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .visualizations {
+            margin-top: 3rem;
+        }
+
+        .visualizations img {
+            display: block;
+            max-width: 100%;
+            margin-bottom: 2rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .success {
+            color: green;
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Train Wind Turbine Power Model</h1>
+        <form method="POST">
+            <button class="train-btn" type="submit">Start Training</button>
+        </form>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        {% if training_done %}
+        <div class="success">✅ Training completed successfully!</div>
+        <div class="visualizations">
+            <h2>Training Visualizations</h2>
+            {% for plot in plots %}
+                <img src="{{ url_for('serve_visualization', filename=plot.split('/')[-1]) }}" alt="Visualization">
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
