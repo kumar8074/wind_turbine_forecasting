@@ -60,6 +60,7 @@ class PredictionPipeline:
             logging.info(f"Predicted LV ActivePower (kW) for the next 10th minute: {y_pred_original}")
             
             logging.info("Prediction pipeline completed successfully")
+            return y_pred_original
         except CustomException as ce:
             logging.error(f"An error occurred: {ce}")
         except Exception as e:
@@ -67,13 +68,13 @@ class PredictionPipeline:
             print(f"Unexpected error during prediction pipeline: {e}")
             
 # Example Usage:
-if __name__ == "__main__":
-    predict_pipeline=PredictionPipeline()
-    user_input_example={
-        'LV ActivePower (kW)': 318,
-        'Wind Speed (m/s)': 5.31,
-        'Theoretical_Power_Curve (KWh)': 416,
-        'Wind Direction (°)': 259
-    }
-    predict_pipeline.predict(user_input_example)
+#if __name__ == "__main__":
+    #predict_pipeline=PredictionPipeline()
+    #user_input_example={
+        #'LV ActivePower (kW)': 318,
+        #'Wind Speed (m/s)': 5.31,
+        #'Theoretical_Power_Curve (KWh)': 416,
+        #'Wind Direction (°)': 259
+    #}
+    #predict_pipeline.predict(user_input_example)
     

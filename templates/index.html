@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wind Turbine Power Prediction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .wind-icon {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e0e6ed;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .unit {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+            background: linear-gradient(135deg, #2980b9, #3498db);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 2.5rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.2);
+        }
+
+        .result h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .result .prediction-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .result .prediction-unit {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="wind-icon">🌪️</div>
+            <h1>Wind Turbine Power Prediction</h1>
+            <p>Advanced AI-powered forecasting for optimal energy management</p>
+        </div>
+
+        <form method="POST" id="predictionForm">
+            <div class="grid">
+                <div class="form-group">
+                    <label>Current LV Active Power</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">⚡</span>
+                        <input type="number" step="0.01" name="active_power" required placeholder="0.00">
+                        <span class="unit">kW</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Wind Speed</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">💨</span>
+                        <input type="number" step="0.01" name="wind_speed" required placeholder="0.00">
+                        <span class="unit">m/s</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="form-group">
+                    <label>Theoretical Power Curve</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📊</span>
+                        <input type="number" step="0.01" name="theoretical_power" required placeholder="0.00">
+                        <span class="unit">kWh</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Wind Direction</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🧭</span>
+                        <input type="number" step="0.01" name="wind_direction" required placeholder="0.00" min="0" max="360">
+                        <span class="unit">°</span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Generate Prediction
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 1rem; color: #7f8c8d;">Analyzing data...</p>
+            </div>
+        </form>
+
+        {% if prediction is defined and prediction is not none %}
+        <div class="result">
+            <h3>🎯 Prediction Complete</h3>
+            <div class="prediction-value">{{ prediction }}</div>
+            <div class="prediction-unit">kW for next 10-minute interval</div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function() {
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.submit-btn').disabled = true;
+            document.querySelector('.submit-btn').textContent = 'Processing...';
+        });
+
+        // Add input validation and formatting
+        const inputs = document.querySelectorAll('input[type="number"]');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.name === 'wind_direction') {
+                    if (this.value < 0) this.value = 0;
+                    if (this.value > 360) this.value = 360;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

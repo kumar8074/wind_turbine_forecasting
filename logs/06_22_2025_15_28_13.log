@@ -1,0 +1,13 @@
+[ 2025-06-22 15:28:13,063 ] 97 werkzeug - WARNING -  * Debugger is active!
+[ 2025-06-22 15:28:13,071 ] 97 werkzeug - INFO -  * Debugger PIN: 463-074-425
+[ 2025-06-22 15:28:18,881 ] 97 werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 15:28:18] "GET / HTTP/1.1" 200 -
+[ 2025-06-22 15:29:00,643 ] 23 root - INFO - Started Prediction Pipeline
+[ 2025-06-22 15:29:00,680 ] 27 root - INFO - Preprocessor object loaded sucessfully
+[ 2025-06-22 15:29:00,827 ] 30 root - INFO - Model loaded sucessfully
+[ 2025-06-22 15:29:00,827 ] 34 root - INFO - Preparing sequence from user input...
+[ 2025-06-22 15:29:00,866 ] 42 root - INFO - Prepared sequence shape: (1, 10, 4)
+[ 2025-06-22 15:29:00,866 ] 44 root - INFO - Starting prediction...
+[ 2025-06-22 15:29:01,061 ] 50 root - INFO - Number of features in the test data: 4
+[ 2025-06-22 15:29:01,062 ] 60 root - INFO - Predicted LV ActivePower (kW) for the next 10th minute: 686.3879068789234
+[ 2025-06-22 15:29:01,062 ] 62 root - INFO - Prediction pipeline completed successfully
+[ 2025-06-22 15:29:01,062 ] 97 werkzeug - INFO - 127.0.0.1 - - [22/Jun/2025 15:29:01] "POST / HTTP/1.1" 200 -
