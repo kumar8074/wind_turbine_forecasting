@@ -89,10 +89,6 @@ class DataTransformation:
             joblib.dump(scaler, self.data_transformation_config.processor_file_path)
             logging.info(f"Preprocessor object saved at {self.data_transformation_config.processor_file_path}")
             
-            # Save the test data
-            np.savez(self.data_transformation_config.test_data_path, X_test=X_test, y_test=y_test)
-            logging.info(f"Test data saved at {self.data_transformation_config.test_data_path}")
-            
             return(
                 X_train, y_train,
                 X_val, y_val,

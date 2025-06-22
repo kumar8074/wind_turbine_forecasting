@@ -6,11 +6,11 @@ transformation:
   test_size: 0.1
   window_size: 10
   preprocessor_file_path: "artifacts/preprocessor.pkl"
-  test_data_path: "DATA/test.csv"
 
 
 model:
   model_save_path: "artifacts/trained_model.keras"
+  visualizations_dir: "artifacts/visualizations"
   epochs: 10
   batch_size: 32
 

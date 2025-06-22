@@ -2,7 +2,6 @@ import os
 import sys
 import numpy as np
 import tensorflow as tf
-from sklearn.metrics import r2_score
 
 # Dynamically add the project root directory to sys.path
 current_file_path = os.path.abspath(__file__)
@@ -10,26 +9,18 @@ project_root = os.path.abspath(os.path.join(current_file_path, "../../.."))
 if project_root not in sys.path:
     sys.path.append(project_root)
     
-from src.utils.prediction_utils import load_keras_model, load_object, calculate_r2_score
+from src.utils.prediction_utils import load_keras_model, load_object, prepare_sequence_from_user_input
 from src.logger import logging
 from src.exception import CustomException
 
 class PredictionPipeline:
     def __init__(self):
-        self.test_data_path="DATA/test.csv.npz"
         self.model_path="artifacts/trained_model.keras"
         self.preprocessor_path="artifacts/preprocessor.pkl"
         
-    def predict(self):
+    def predict(self, user_input_dict):
         try:
             logging.info("Started Prediction Pipeline")
-            
-            # Load the test data
-            data=np.load(self.test_data_path)
-            X_test=data['X_test']
-            y_test=data['y_test']
-            logging.info("Test data loaded successfully")
-            logging.info(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
             
             # Load Processor object and model
             processor=load_object(self.preprocessor_path)
@@ -38,20 +29,36 @@ class PredictionPipeline:
             model=load_keras_model(self.model_path)
             logging.info("Model loaded sucessfully")
             
+            # Create test set from user input
+            features=['LV ActivePower (kW)', 'Wind Speed (m/s)', 'Theoretical_Power_Curve (KWh)', 'Wind Direction (°)']
+            logging.info("Preparing sequence from user input...")
+            sequence = prepare_sequence_from_user_input(
+                user_input_dict=user_input_dict,
+                csv_path="DATA/T1.csv",
+                scaler=processor,
+                features=features,
+                time_step=10
+            )
+            logging.info(f"Prepared sequence shape: {sequence.shape}")
+            
             logging.info("Starting prediction...")
             # Make predictions
-            y_pred=model.predict(X_test)
+            y_pred=model.predict(sequence)
             
             # Get the number of features
-            num_features = X_test.shape[2]
+            num_features = sequence.shape[2]
             logging.info(f"Number of features in the test data: {num_features}")
-            print(f"Number of features in the test data: {num_features}")
+
+            # Create a dummy input with all zeros
+            dummy = np.zeros((1, num_features))
             
-            # Calculate R2 Score
-            logging.info("Calculating R2 Score...")
-            r2 = calculate_r2_score(y_test, y_pred, num_features, processor)
-            logging.info(f"Calculated R2 Score: {r2}")
-            print(f"Calculated R2 Score: {r2}")
+            # Put your prediction in the same index where your target was during training (assumed 0)
+            dummy[0, 0] = y_pred.flatten()[0]
+            # apply inverse transform
+            y_pred_original = processor.inverse_transform(dummy)[0, 0]
+            
+            logging.info(f"Predicted LV ActivePower (kW) for the next 10th minute: {y_pred_original}")
+            
             logging.info("Prediction pipeline completed successfully")
         except CustomException as ce:
             logging.error(f"An error occurred: {ce}")
@@ -62,4 +69,11 @@ class PredictionPipeline:
 # Example Usage:
 if __name__ == "__main__":
     predict_pipeline=PredictionPipeline()
-    predict_pipeline.predict()
+    user_input_example={
+        'LV ActivePower (kW)': 318,
+        'Wind Speed (m/s)': 5.31,
+        'Theoretical_Power_Curve (KWh)': 416,
+        'Wind Direction (°)': 259
+    }
+    predict_pipeline.predict(user_input_example)
+    

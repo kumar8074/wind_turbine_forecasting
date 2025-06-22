@@ -1,0 +1,33 @@
+[ 2025-06-22 12:25:59,883 ] 18 root - INFO - Starting Training Pipeline
+[ 2025-06-22 12:25:59,885 ] 26 root - INFO - Entered the data ingestion component
+[ 2025-06-22 12:25:59,917 ] 29 root - INFO - Loaded data from CSV file
+[ 2025-06-22 12:25:59,917 ] 22 root - INFO - Data Ingestion completed
+[ 2025-06-22 12:25:59,918 ] 43 root - INFO - Entered the data transformation component
+[ 2025-06-22 12:25:59,981 ] 65 root - INFO - Splitted data into training, validation and test sets
+[ 2025-06-22 12:25:59,982 ] 74 root - INFO - Standardized the data
+[ 2025-06-22 12:26:00,009 ] 79 root - INFO - Created X,y Pairs
+[ 2025-06-22 12:26:00,009 ] 80 root - INFO - X_train shape: (40414, 10, 4), y_train shape: (40414,)
+[ 2025-06-22 12:26:00,009 ] 81 root - INFO - X_val shape: (5043, 10, 4), y_val shape: (5043,)
+[ 2025-06-22 12:26:00,009 ] 82 root - INFO - X_test shape: (5043, 10, 4), y_test shape: (5043,)
+[ 2025-06-22 12:26:00,010 ] 90 root - INFO - Preprocessor object saved at artifacts/preprocessor.pkl
+[ 2025-06-22 12:26:00,010 ] 27 root - INFO - Data Transformation completed
+[ 2025-06-22 12:26:00,011 ] 51 root - INFO - Entered Model Trainer Component
+[ 2025-06-22 12:26:00,035 ] 55 root - INFO - MLflow tracking URI and experiment set successfully
+[ 2025-06-22 12:26:00,036 ] 59 root - INFO - Preprocessor object loaded successfully
+[ 2025-06-22 12:26:00,105 ] 63 root - INFO - Model Built successfully
+[ 2025-06-22 12:26:00,105 ] 67 root - INFO - Visualizations directory created at artifacts/visualizations
+[ 2025-06-22 12:26:00,205 ] 79 root - INFO - Model parameters logged successfully
+[ 2025-06-22 12:26:48,852 ] 88 root - INFO - Model Training Completed
+[ 2025-06-22 12:26:48,853 ] 91 root - INFO - Plotting training curves...
+[ 2025-06-22 12:26:49,119 ] 93 root - INFO - Training curves plotted successfully
+[ 2025-06-22 12:26:49,602 ] 102 root - INFO - Number of features in the test data: 4
+[ 2025-06-22 12:26:49,602 ] 105 root - INFO - Calculating R2 Score...
+[ 2025-06-22 12:26:49,603 ] 107 root - INFO - Calculated R2 Score: 0.9812011620159262
+[ 2025-06-22 12:26:49,614 ] 111 root - INFO - Plotting Predictions and Truth curves...
+[ 2025-06-22 12:26:49,784 ] 115 root - INFO - Predictions and Truth curves plotted successfully
+[ 2025-06-22 12:26:49,784 ] 118 root - INFO - Plotting Predicted vs True over time...
+[ 2025-06-22 12:26:49,934 ] 122 root - INFO - Predicted vs True over time plotted successfully
+[ 2025-06-22 12:26:51,481 ] 131 root - INFO - Model signature inferred successfully
+[ 2025-06-22 12:26:56,654 ] 139 root - INFO - Model logged to MLflow successfully
+[ 2025-06-22 12:26:56,679 ] 145 root - INFO - Trained model saved at artifacts/trained_model.keras
+[ 2025-06-22 12:26:56,680 ] 32 root - INFO - Training Pipeline completed

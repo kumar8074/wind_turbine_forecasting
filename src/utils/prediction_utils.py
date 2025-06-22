@@ -4,7 +4,7 @@ import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 import numpy as np
-from sklearn.metrics import r2_score
+
 
 def load_object(file_path):
     try:
@@ -32,38 +32,22 @@ def load_keras_model(load_path: str):
     model = load_model(load_path)
     return model
 
-def calculate_r2_score(y_true, y_pred, num_features, processor):
+
+def prepare_sequence_from_user_input(user_input_dict, csv_path, scaler, features, time_step=10):
     """
-    Calculate the R2 score for the predictions.
-                
-    Parameters:
-        y_true (np.ndarray): True values.
-        y_pred (np.ndarray): Predicted values.
-        num_features (int): Number of features in the data.
-        processor (object): Preprocessor object for inverse transformation.
-                
-    Returns:
-        float: R2 score.
+    Constructs an input sequence using last (time_step - 1) rows from original data + 1 user row
     """
-    # Flatten the predictions
-    y_pred=y_pred.flatten()
-                
-    # Create an empty full array for inverse transformation
-    y_pred_full=np.zeros((y_pred.shape[0],num_features))
-                
-    # Insert predictions into the first column
-    y_pred_full[:, 0]=y_pred
-                
-    # Apply inverse transformation
-    y_pred_inverse = processor.inverse_transform(y_pred_full)[:, 0]  # Extract only the first column
-                
-    # If y_test was also scaled, inverse transform it for comparison
-    y_true_full = np.zeros((y_true.shape[0], num_features))  # Use the same number of features
-    y_true_full[:,0]=y_true
-                
-    y_true_inverse= processor.inverse_transform(y_true_full)[:, 0]  # Extract only the first column
-                
-    # Calculate R2 Score
-    r2= r2_score(y_true_inverse, y_pred_inverse)
-                
-    return r2
+    df = pd.read_csv(csv_path)
+    df = df[features]
+    last_n_rows = df.tail(time_step - 1)
+
+    user_row_df = pd.DataFrame([user_input_dict])[features]
+
+    combined = pd.concat([last_n_rows, user_row_df], ignore_index=True)
+    assert combined.shape[0] == time_step, "Insufficient rows to construct input sequence"
+
+    # Scale
+    combined_scaled = scaler.transform(combined)
+    final_sequence= np.expand_dims(combined_scaled, axis=0)  # shape: (1, time_step, num_features)
+    return final_sequence
+

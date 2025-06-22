@@ -28,7 +28,7 @@ def train_pipeline():
 
         # Step 3: Model Training
         model_trainer = ModelTrainer()
-        history = model_trainer.initiate_model_training(X_train, y_train, X_val, y_val)
+        history = model_trainer.initiate_model_training(X_train, y_train, X_val, y_val, X_test, y_test)
         logging.info("Training Pipeline completed")
         print("Training Pipeline completed")
     except CustomException as ce:
