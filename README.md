@@ -1,4 +1,4 @@
-# Wind Turbine Performance Optimization (WTPO) - Time Series Forecasting
+# Multivariate Time Series Forecasting - Wind Turbine Power Generation
 
 ## Project Overview
 Wind energy plays a crucial role in the global shift toward sustainable power generation. This project presents a comprehensive analysis and prediction system for wind turbine performance using deep learning techniques, with a primary focus on Recurrent Neural Networks (RNNs) for time series forecasting.
@@ -34,7 +34,7 @@ This data is taken from Wind Turbines Scada system that is working and generatin
 
 ## Project Structure
 ```
-WTPO/
+WTPG/
 ├── .github/                 # GitHub Actions workflows
 ├── DATA/                    # Raw and processed data
 ├── Notebooks/               # Jupyter notebooks for research/experiments
@@ -71,7 +71,7 @@ WTPO/
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/yourusername/wind_turbine_forecasting.git](https://github.com/yourusername/wind_turbine_forecasting.git)
+   git clone https://github.com/yourusername/wind_turbine_forecasting.git
    cd wind_turbine_forecasting
    ```
 2. Create and activate a virtual environment:
@@ -127,6 +127,6 @@ Modify `config/config.yaml` to adjust:
 ## Docker Support
 Build and run the application using Docker:
 ```bash
-docker build -t wtpo .
-docker run -p 8000:8000 wtpo
+docker build -t wtpg .
+docker run -p 8000:8000 wtpg
 ```
